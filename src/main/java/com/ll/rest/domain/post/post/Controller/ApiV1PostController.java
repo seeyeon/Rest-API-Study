@@ -5,7 +5,6 @@ import com.ll.rest.domain.post.post.service.PostService;
 import com.ll.rest.global.jpa.entity.BaseTime;
 import com.ll.rest.global.rsData.RsData;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,11 +35,8 @@ public class ApiV1PostController extends BaseTime {
         return new RsData("200-1", "%d번 글을 삭제했습니다.".formatted(id));
     }
 
-    @AllArgsConstructor
-    @Getter
-    public static class PostModifyReqBody{
-        private String title;
-        private String content;
+    record PostModifyReqBody(String title, String content){
+
     }
 
     @PutMapping("/{id}")
