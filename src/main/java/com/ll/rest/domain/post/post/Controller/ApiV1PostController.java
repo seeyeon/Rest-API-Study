@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -67,18 +66,20 @@ public class ApiV1PostController extends BaseTime {
             @NotBlank @Length(min = 2) String content){
     }
 
-    @PostMapping
-    public RsData<Map<String, Object>> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
-        Post post = postService.write(reqBody.title, reqBody.content);
+    record PostWriteResBody(
+            PostDto item,
+            long totalCount) {
+    }
 
-        Map<String, Object> data = Map.of(
-                "item" , new PostDto(post),
-                "totalCount", postService.count()
-        );
+    @PostMapping
+    public RsData<PostWriteResBody> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
+        Post post = postService.write(reqBody.title, reqBody.content);
 
         return new RsData<>(
                 "200-1", "%d번 글을 등록했습니다.".formatted(post.getId()),
-                 data
+                 new PostWriteResBody(
+                         new PostDto(post) , postService.count()
+                 )
         );
 
     }
