@@ -38,7 +38,7 @@ public class ApiV1PostController extends BaseTime {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RsData<Void>> deleteItem(@PathVariable long id){
+    public ResponseEntity<Void> deleteItem(@PathVariable long id){
         Post post = postService.findById(id).get();
 
         postService.delete(post);
