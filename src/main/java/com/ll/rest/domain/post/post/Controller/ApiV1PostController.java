@@ -38,12 +38,14 @@ public class ApiV1PostController extends BaseTime {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable long id){
+    public ResponseEntity<RsData<Void>> deleteItem(@PathVariable long id){
         Post post = postService.findById(id).get();
 
         postService.delete(post);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new RsData<>("200-1","%d번 글이 삭제되었습니다.".formatted(id)));
     }
 
     record PostModifyReqBody(
