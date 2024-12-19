@@ -11,7 +11,7 @@ public class RsData {
 
     private String resultCode;
     private String msg;
-    private Long data;
+    private Object data;
 
     public RsData(String resultCode, String msg){
         this.resultCode = resultCode;

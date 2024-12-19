@@ -56,7 +56,9 @@ public class ApiV1PostController extends BaseTime {
 
         postService.modify(post, reqBody.title, reqBody.content);
 
-        return new RsData("200-1","%d번 글을 수정했습니다.".formatted(id));
+        return new RsData("200-1","%d번 글을 수정했습니다.".formatted(id),
+                new PostDto(post)
+        );
     }
 
     record PostWriteReqBody(
