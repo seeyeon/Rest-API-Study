@@ -68,7 +68,9 @@ public class ApiV1PostController extends BaseTime {
     public RsData writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
         Post post = postService.write(reqBody.title, reqBody.content);
 
-        return new RsData("200-1","%d번 글을 등록했습니다.".formatted(post.getId()));
+        return new RsData(
+                "200-1","%d번 글을 등록했습니다.".formatted(post.getId()),
+                post.getId());
     }
 
 }

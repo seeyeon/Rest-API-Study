@@ -9,4 +9,13 @@ public class RsData {
 
     private String resultCode;
     private String msg;
+    private long data;
+
+    public RsData(String resultCode, String msg){
+        this.resultCode = resultCode;
+        this.msg = msg;
+        this.data =0;
+
+        //this(resultCode, msg, 0);
+    }
 }
