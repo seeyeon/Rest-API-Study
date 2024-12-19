@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BaseInitData {
 
     private final PostService postService;
+
     @Autowired
     @Lazy
     private BaseInitData self;
@@ -23,6 +24,8 @@ public class BaseInitData {
             self.work1();
         };
     }
+
+    //사전에 샘플 데이터 3개 넣어놓기
     @Transactional
     public void work1() {
 
