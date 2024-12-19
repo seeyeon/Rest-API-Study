@@ -51,12 +51,12 @@ public class ApiV1PostController extends BaseTime {
 
     @PutMapping("/{id}")
     @Transactional
-    public RsData modifyItem(@PathVariable long id, @RequestBody @Valid PostModifyReqBody reqBody){
+    public RsData<PostDto> modifyItem(@PathVariable long id, @RequestBody @Valid PostModifyReqBody reqBody){
         Post post = postService.findById(id).get();
 
         postService.modify(post, reqBody.title, reqBody.content);
 
-        return new RsData("200-1","%d번 글을 수정했습니다.".formatted(id),
+        return new RsData<>("200-1","%d번 글을 수정했습니다.".formatted(id),
                 new PostDto(post)
         );
     }
@@ -67,10 +67,10 @@ public class ApiV1PostController extends BaseTime {
     }
 
     @PostMapping
-    public RsData writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
+    public RsData<Long> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
         Post post = postService.write(reqBody.title, reqBody.content);
 
-        return new RsData(
+        return new RsData<>(
                 "200-1","%d번 글을 등록했습니다.".formatted(post.getId()),
                 post.getId());
     }
