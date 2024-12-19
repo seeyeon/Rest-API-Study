@@ -36,12 +36,12 @@ public class ApiV1PostController extends BaseTime {
     }
 
     @DeleteMapping("/{id}")
-    public RsData deleteItem(@PathVariable long id){
+    public RsData<Void> deleteItem(@PathVariable long id){
         Post post = postService.findById(id).get();
 
         postService.delete(post);
 
-        return new RsData("200-1", "%d번 글을 삭제했습니다.".formatted(id));
+        return new RsData<>("200-1", "%d번 글을 삭제했습니다.".formatted(id));
     }
 
     record PostModifyReqBody(
@@ -67,12 +67,14 @@ public class ApiV1PostController extends BaseTime {
     }
 
     @PostMapping
-    public RsData<Long> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
+    public RsData<PostDto> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
         Post post = postService.write(reqBody.title, reqBody.content);
 
         return new RsData<>(
                 "200-1","%d번 글을 등록했습니다.".formatted(post.getId()),
-                post.getId());
+                new PostDto(post)
+        );
+
     }
 
 }
