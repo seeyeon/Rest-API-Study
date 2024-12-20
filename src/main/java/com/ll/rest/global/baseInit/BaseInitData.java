@@ -46,8 +46,11 @@ public class BaseInitData {
 
         if(postService.count() >0) return;
 
-        Post post1 = postService.write("축구 하실 분?", "14시까지 22명 모집합니다.");
-        Post post2 = postService.write("농구 하실 분?", "15시까지 12명 모집합니다.");
-        Post post3 = postService.write("배드민턴 하실 분?", "16시까지 6명 모집합니다.");
+        Member memberUser1 = memberService.findByUsername("user1").get();
+        Member memberUser2 = memberService.findByUsername("user2").get();
+
+        Post post1 = postService.write(memberUser1,"축구 하실 분?", "14시까지 22명 모집합니다.");
+        Post post2 = postService.write(memberUser1,"농구 하실 분?", "15시까지 12명 모집합니다.");
+        Post post3 = postService.write(memberUser2,"배드민턴 하실 분?", "16시까지 6명 모집합니다.");
     }
 }

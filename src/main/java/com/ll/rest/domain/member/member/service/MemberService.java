@@ -2,9 +2,11 @@ package com.ll.rest.domain.member.member.service;
 
 import com.ll.rest.domain.member.member.entity.Member;
 import com.ll.rest.domain.member.member.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import com.ll.rest.global.exceptions.ServiceException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +36,9 @@ public class MemberService {
                 .build();
 
         return memberRepository.save(member);
+    }
+
+    public Optional<Member> findByUsername(String username) {
+        return memberRepository.findByUsername(username);
     }
 }
