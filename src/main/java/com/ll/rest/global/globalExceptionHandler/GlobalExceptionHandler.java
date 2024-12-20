@@ -8,7 +8,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
@@ -24,17 +28,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RsData<Void>> handle(MethodArgumentNotValidException ex) {
-        FieldError fieldError = ex.getBindingResult().getFieldError();
-        String field = fieldError.getField();  //어떤 필드가 ex.content
-        String code = fieldError.getCode(); //어떤 오류를 갖는지 ex.NotBlank
-
-        String msg = ex.getBindingResult().getFieldError().getDefaultMessage();
-
+        String msg = ex.getBindingResult()
+                    .getAllErrors()
+                    .stream()
+                    .filter(error -> error instanceof FieldError)
+                    .map(error -> (FieldError) error)
+                    .map(error -> error.getField() + "-" + error.getCode() + "-" + error.getDefaultMessage())
+                    .sorted(Comparator.comparing(String::toString))
+                    .collect(Collectors.joining("\n"));
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new RsData<>(
-                        "400-"+code,
-                        field+" : "+msg
+                        "400-1",
+                        msg
                 ));
     }
 }
