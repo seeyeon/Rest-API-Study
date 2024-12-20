@@ -1,5 +1,7 @@
 package com.ll.rest.global.baseInit;
 
+import com.ll.rest.domain.member.member.entity.Member;
+import com.ll.rest.domain.member.member.service.MemberService;
 import com.ll.rest.domain.post.post.entity.Post;
 import com.ll.rest.domain.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Configuration
 @RequiredArgsConstructor
 public class BaseInitData {
-    private final MemeberService memeberService;
+    private final MemberService memberService;
     private final PostService postService;
 
     @Autowired
@@ -30,7 +32,7 @@ public class BaseInitData {
     @Transactional
     public void work1() {
 
-        if(memeberService.count() >0) return;
+        if(memberService.count() >0) return;
 
         Member memberSystem = memberService.join("system", "1234", "시스템");
         Member memberAdmin = memberService.join("admin", "1234", "관리자");
