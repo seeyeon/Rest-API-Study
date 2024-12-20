@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Configuration
 @RequiredArgsConstructor
 public class BaseInitData {
-
+    private final MemeberService memeberService;
     private final PostService postService;
 
     @Autowired
@@ -22,12 +22,25 @@ public class BaseInitData {
     public ApplicationRunner baseInitDataApplicationRunner() {
         return args -> {
             self.work1();
+            self.work2();
         };
     }
 
     //사전에 샘플 데이터 3개 넣어놓기
     @Transactional
     public void work1() {
+
+        if(memeberService.count() >0) return;
+
+        Member memberSystem = memberService.join("system", "1234", "시스템");
+        Member memberAdmin = memberService.join("admin", "1234", "관리자");
+        Member memberUser1 = memberService.join("user1", "1234", "유저1");
+        Member memberUser2 = memberService.join("user2", "1234", "유저2");
+        Member memberUser3 = memberService.join("user3", "1234", "유저3");
+    }
+
+    @Transactional
+    public void work2() {
 
         if(postService.count() >0) return;
 
