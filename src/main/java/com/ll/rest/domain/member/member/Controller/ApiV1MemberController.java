@@ -26,20 +26,15 @@ public class ApiV1MemberController extends BaseTime {
             @NotBlank @Length(min = 3) String nickname){
     }
 
-    public record MemberWriteResBody(
-            MemberDto item,
-            long totalCount) {
-    }
 
-    @PostMapping
-    public RsData<MemberWriteResBody> join(@RequestBody @Valid MemberWriteReqBody reqBody){
+
+    @PostMapping("/join")
+    public RsData<MemberDto> join(@RequestBody @Valid MemberWriteReqBody reqBody){
         Member member = memberService.join(reqBody.username, reqBody.password, reqBody.nickname);
 
         return new RsData<>(
                         "201-1", "%s님 환영합니다.".formatted(member.getUsername()),
-                        new MemberWriteResBody(
-                                new MemberDto(member) , memberService.count()
-                        )
+                        new MemberDto(member)
                 );
 
     }
